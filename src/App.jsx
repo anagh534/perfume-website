@@ -2,6 +2,7 @@ import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import SmoothScroll from './components/SmoothScroll';
+import ScrollToTop from './components/ScrollToTop';
 import { CartProvider } from './context/CartContext';
 
 const Home = React.lazy(() => import('./pages/Home'));
@@ -14,10 +15,11 @@ function App() {
     <CartProvider>
       <SmoothScroll>
         <Router>
+          <ScrollToTop />
           <Layout>
             <Suspense fallback={
-              <div className="flex h-screen items-center justify-center bg-[#050505]">
-                <div className="text-[10px] font-display uppercase tracking-[0.2em] text-[#FAFAFA] animate-pulse">
+              <div className="flex h-screen w-screen items-center justify-center bg-[#050505] fixed inset-0 z-[100]">
+                <div className="text-[10px] font-display uppercase tracking-widest text-white animate-pulse">
                   LOADING AURA
                 </div>
               </div>

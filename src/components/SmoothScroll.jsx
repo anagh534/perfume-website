@@ -5,28 +5,27 @@ export default function SmoothScroll({ children }) {
   const lenisRef = useRef(null);
 
   useEffect(() => {
+    // Ultra-lightweight Lenis config
     const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // https://www.desmos.com/calculator/brs54l4xou
-      direction: 'vertical',
-      gestureDirection: 'vertical',
+      duration: 1.0,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
       smooth: true,
-      mouseMultiplier: 1,
       smoothTouch: false,
-      touchMultiplier: 2,
-      infinite: false,
     });
 
     lenisRef.current = lenis;
 
+    let animationFrameId;
+
     function raf(time) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      animationFrameId = requestAnimationFrame(raf);
     }
 
-    requestAnimationFrame(raf);
+    animationFrameId = requestAnimationFrame(raf);
 
     return () => {
+      cancelAnimationFrame(animationFrameId);
       lenis.destroy();
     };
   }, []);

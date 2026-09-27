@@ -19,19 +19,27 @@ export default function Navbar() {
   const { totalCount, setIsCartOpen } = useCart();
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 20);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
     <nav
       className={clsx(
-        'fixed w-full top-0 z-40 transition-all duration-500 font-sans',
-        scrolled ? 'bg-[#050505]/70 backdrop-blur-xl border-b border-white/5 py-4' : 'bg-transparent py-6'
+        'fixed w-full top-0 z-40 transition-colors duration-300 font-sans',
+        scrolled ? 'bg-[#050505]/95 border-b border-white/5 py-4' : 'bg-transparent py-6'
       )}
+      style={{ transform: 'translateZ(0)' }} // Force GPU layer
     >
       <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
         <div className="flex justify-between items-center">
@@ -98,7 +106,7 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="absolute top-full left-0 w-full bg-[#050505]/95 backdrop-blur-2xl border-t border-white/5 lg:hidden overflow-hidden"
+            className="absolute top-full left-0 w-full bg-[#050505] border-t border-white/5 lg:hidden overflow-hidden"
           >
             <div className="px-6 py-8 flex flex-col gap-6">
               {navLinks.map((link) => (
