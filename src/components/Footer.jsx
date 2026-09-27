@@ -1,42 +1,50 @@
-import { Camera, Share2, Play } from 'lucide-react';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import logoImg from '../assets/images/logo.jpg';
+import { ArrowUpRight } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer className="bg-brand-navy text-brand-light py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div className="col-span-1 md:col-span-2">
-          <h2 className="text-2xl font-serif mb-4">AURÉLIA</h2>
-          <p className="text-brand-light/70 max-w-sm">
-            Elegance captured in a bottle. Discover our luxurious collection of fine fragrances designed to inspire and enchant.
-          </p>
-        </div>
-        
-        <div>
-          <h3 className="text-lg font-serif mb-4 text-brand-rosegold">Explore</h3>
-          <ul className="space-y-2">
-            <li><a href="/products" className="text-brand-light/70 hover:text-brand-rosegold transition-colors">Shop All</a></li>
-            <li><a href="/about" className="text-brand-light/70 hover:text-brand-rosegold transition-colors">Our Story</a></li>
-            <li><a href="/contact" className="text-brand-light/70 hover:text-brand-rosegold transition-colors">Contact Us</a></li>
-          </ul>
+    <footer className="bg-[#050505] text-[#FAFAFA] pt-32 pb-16 font-sans border-t border-white/10 relative overflow-hidden">
+      {/* Background Glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent"></div>
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-xl h-[100px] bg-indigo-500/10 blur-[100px]"></div>
+
+      <div className="max-w-[1600px] mx-auto px-6 lg:px-12 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-16 mb-32">
+          
+          <div className="md:col-span-5 space-y-8">
+            <img src={logoImg} alt="AURA" className="h-10 w-auto mix-blend-screen opacity-90" />
+            <p className="text-base font-medium text-white/50 max-w-sm leading-relaxed">
+              Engineered Olfactory Experiences. <br/>
+              Developed in Tokyo, Formulated in Paris.
+            </p>
+          </div>
+
+          <div className="md:col-span-2 md:col-start-8 space-y-6">
+            <h4 className="text-[10px] uppercase font-bold tracking-widest text-white/40 mb-6">System</h4>
+            <ul className="space-y-4 text-sm font-bold text-white/70">
+              <li><Link to="/products" className="hover:text-white transition-colors flex items-center gap-1">Archive <ArrowUpRight className="w-3 h-3"/></Link></li>
+              <li><Link to="/about" className="hover:text-white transition-colors flex items-center gap-1">The Lab <ArrowUpRight className="w-3 h-3"/></Link></li>
+              <li><Link to="/contact" className="hover:text-white transition-colors flex items-center gap-1">Terminals <ArrowUpRight className="w-3 h-3"/></Link></li>
+            </ul>
+          </div>
+
+          <div className="md:col-span-2 space-y-6">
+            <h4 className="text-[10px] uppercase font-bold tracking-widest text-white/40 mb-6">Legal</h4>
+            <ul className="space-y-4 text-sm font-bold text-white/70">
+              <li><a href="#" className="hover:text-white transition-colors">Privacy</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Terms</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Shipping</a></li>
+            </ul>
+          </div>
+
         </div>
 
-        <div>
-          <h3 className="text-lg font-serif mb-4 text-brand-rosegold">Follow Us</h3>
-          <div className="flex space-x-4">
-            <a href="#" className="text-brand-light/70 hover:text-brand-rosegold transition-colors">
-              <Camera className="w-5 h-5" />
-            </a>
-            <a href="#" className="text-brand-light/70 hover:text-brand-rosegold transition-colors">
-              <Share2 className="w-5 h-5" />
-            </a>
-            <a href="#" className="text-brand-light/70 hover:text-brand-rosegold transition-colors">
-              <Play className="w-5 h-5" />
-            </a>
-          </div>
+        <div className="flex flex-col md:flex-row justify-between items-center text-[10px] font-bold uppercase tracking-widest text-white/30 border-t border-white/10 pt-8">
+          <p>&copy; {new Date().getFullYear()} AURA LABS INC.</p>
+          <p className="mt-4 md:mt-0">VERSION 2.0 // ALL SYSTEMS NORMAL</p>
         </div>
-      </div>
-      <div className="mt-12 pt-8 border-t border-brand-light/10 text-center text-sm text-brand-light/50">
-        &copy; {new Date().getFullYear()} Aurélia Paris. All rights reserved.
       </div>
     </footer>
   );

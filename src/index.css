@@ -1,25 +1,51 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-navy: #0A1128;
-  --color-brand-rosegold: #D8A495;
-  --color-brand-rosegold-light: #F4DFD8;
-  --color-brand-light: #FDFBF9;
-  --color-brand-gold: #D4AF37;
+  --color-aura-black: #050505;
+  --color-aura-zinc: #18181B;
+  --color-aura-silver: #A1A1AA;
+  --color-aura-white: #FAFAFA;
   
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Manrope', system-ui, sans-serif;
+  --font-display: 'Syne', sans-serif;
 }
 
 @layer base {
   body {
-    background-color: var(--color-brand-light);
-    color: var(--color-brand-navy);
+    background-color: var(--color-aura-black);
+    color: var(--color-aura-white);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
-  
+
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-serif);
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.03em;
   }
+}
+
+/* Glassmorphism & Avant-Garde Utilities */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.text-gradient {
+  background: linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Custom Scrollbar - Hidden for modern look, but styled if visible */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
 }

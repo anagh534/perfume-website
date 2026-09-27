@@ -12,11 +12,14 @@
   "dependencies": {
     "@react-three/drei": "^10.7.9",
     "@react-three/fiber": "^9.8.1",
+    "@studio-freight/lenis": "^1.0.42",
+    "clsx": "^2.1.1",
     "framer-motion": "^13.4.4",
     "lucide-react": "^1.48.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-router-dom": "^7.18.4",
+    "tailwind-merge": "^3.7.0",
     "three": "^0.186.1"
   },
   "devDependencies": {

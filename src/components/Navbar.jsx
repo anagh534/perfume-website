@@ -1,83 +1,120 @@
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ShoppingBag } from 'lucide-react';
-import { useState } from 'react';
+import { useCart } from '../context/CartContext';
 import logoImg from '../assets/images/logo.jpg';
+import clsx from 'clsx';
 
 const navLinks = [
-  { title: 'Home', path: '/' },
-  { title: 'About', path: '/about' },
-  { title: 'Products', path: '/products' },
-  { title: 'Contact', path: '/contact' },
+  { title: 'Formulations', path: '/products' },
+  { title: 'The Lab', path: '/about' },
+  { title: 'Terminals', path: '/contact' },
 ];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const { totalCount, setIsCartOpen } = useCart();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <nav className="fixed w-full z-50 bg-brand-light/90 backdrop-blur-md border-b border-brand-rosegold-light/30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
-          <div className="flex-shrink-0 flex items-center">
-            <Link to="/">
-              <img src={logoImg} alt="Aurélia Logo" className="h-14 w-auto mix-blend-multiply" />
-            </Link>
+    <nav
+      className={clsx(
+        'fixed w-full top-0 z-40 transition-all duration-500 font-sans',
+        scrolled ? 'bg-[#050505]/70 backdrop-blur-xl border-b border-white/5 py-4' : 'bg-transparent py-6'
+      )}
+    >
+      <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+        <div className="flex justify-between items-center">
+          
+          {/* Left - Mobile Menu Toggle */}
+          <div className="lg:hidden flex-1">
+            <button onClick={() => setIsOpen(!isOpen)} className="text-white hover:text-[#A1A1AA] transition-colors">
+              {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
           </div>
 
-          <div className="hidden md:flex space-x-8 items-center">
+          {/* Left - Desktop Links */}
+          <div className="hidden lg:flex flex-1 gap-10">
             {navLinks.map((link) => (
               <Link
                 key={link.title}
                 to={link.path}
-                className="relative text-sm uppercase tracking-widest text-brand-navy hover:text-brand-rosegold transition-colors duration-300"
+                className={clsx(
+                  'text-[11px] uppercase tracking-widest font-semibold transition-colors duration-300',
+                  location.pathname === link.path ? 'text-white' : 'text-white/40 hover:text-white'
+                )}
               >
                 {link.title}
-                {location.pathname === link.path && (
-                  <motion.div
-                    layoutId="underline"
-                    className="absolute -bottom-1 left-0 w-full h-[1px] bg-brand-rosegold"
-                  />
-                )}
               </Link>
             ))}
-            <button className="text-brand-navy hover:text-brand-rosegold transition-colors">
-              <ShoppingBag className="w-5 h-5" />
+          </div>
+
+          {/* Center - Logo */}
+          <Link to="/" className="flex-1 flex justify-center items-center">
+            <img
+              src={logoImg}
+              alt="AURA"
+              className="h-10 w-auto mix-blend-screen opacity-90 hover:opacity-100 transition-opacity"
+            />
+          </Link>
+
+          {/* Right - Cart */}
+          <div className="flex-1 flex justify-end">
+            <button
+              onClick={() => setIsCartOpen(true)}
+              className="relative flex items-center gap-2 group"
+            >
+              <span className="text-[11px] uppercase tracking-widest font-semibold hidden sm:block text-white/40 group-hover:text-white transition-colors">
+                Cart
+              </span>
+              <div className="relative">
+                <ShoppingBag className="w-5 h-5 text-white/80 group-hover:text-white transition-colors" />
+                {totalCount > 0 && (
+                  <span className="absolute -top-1.5 -right-1.5 bg-white text-black text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                    {totalCount}
+                  </span>
+                )}
+              </div>
             </button>
           </div>
 
-          <div className="md:hidden flex items-center">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="text-brand-navy hover:text-brand-rosegold transition-colors"
-            >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
         </div>
       </div>
 
       {/* Mobile Menu */}
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="md:hidden bg-brand-light border-b border-brand-rosegold-light/30"
-        >
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {navLinks.map((link) => (
-              <Link
-                key={link.title}
-                to={link.path}
-                onClick={() => setIsOpen(false)}
-                className="block px-3 py-2 text-base uppercase tracking-widest text-brand-navy hover:text-brand-rosegold"
-              >
-                {link.title}
-              </Link>
-            ))}
-          </div>
-        </motion.div>
-      )}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="absolute top-full left-0 w-full bg-[#050505]/95 backdrop-blur-2xl border-t border-white/5 lg:hidden overflow-hidden"
+          >
+            <div className="px-6 py-8 flex flex-col gap-6">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.title}
+                  to={link.path}
+                  onClick={() => setIsOpen(false)}
+                  className="text-sm font-display uppercase tracking-widest text-white/60 hover:text-white"
+                >
+                  {link.title}
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }
