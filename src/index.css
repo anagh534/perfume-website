@@ -1,11 +1,25 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@import "tailwindcss";
+
+@theme {
+  --color-brand-navy: #0A1128;
+  --color-brand-rosegold: #D8A495;
+  --color-brand-rosegold-light: #F4DFD8;
+  --color-brand-light: #FDFBF9;
+  --color-brand-gold: #D4AF37;
+  
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
 }
 
-body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  background-color: #ffffff;
-  color: #333333;
+@layer base {
+  body {
+    background-color: var(--color-brand-light);
+    color: var(--color-brand-navy);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+  }
 }
